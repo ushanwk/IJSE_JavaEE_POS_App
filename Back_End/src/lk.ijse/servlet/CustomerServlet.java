@@ -1,8 +1,6 @@
 package lk.ijse.servlet;
 
-import javax.json.Json;
-import javax.json.JsonArrayBuilder;
-import javax.json.JsonObjectBuilder;
+import javax.json.*;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -62,12 +60,108 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPost(req, resp);
+
+        System.out.println("Awoooo");
+
+        resp.addHeader("Content-Type","application/json");
+        resp.addHeader("Access-Control-Allow-Origin","*");
+
+        PrintWriter writer = resp.getWriter();
+
+        JsonReader reader = Json.createReader(req.getReader());
+
+        JsonObject jsonObject = reader.readObject();
+
+
+        String cusId = jsonObject.getString("id");
+        String cusName = jsonObject.getString("name");
+        String cusAddress = jsonObject.getString("address");
+        String salary = jsonObject.getString("salary");
+
+
+        try {
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaeePosApp", "root", "ushan1234");
+
+
+            PreparedStatement pstm = connection.prepareStatement("insert into customer values(?,?,?,?)");
+            pstm.setObject(1, cusId);
+            pstm.setObject(2, cusName);
+            pstm.setObject(3, cusAddress);
+            pstm.setObject(4, Integer.parseInt(salary));
+
+            if (pstm.executeUpdate() > 0) {
+
+                resp.addHeader("Content-Type","application/json");
+
+                JsonObjectBuilder m = Json.createObjectBuilder();
+                m.add("state","OK");
+                m.add("message","Succesfuly Added");
+                m.add("data","Succesfuly Added");
+                resp.setStatus(200);
+                writer.print(m.build());
+
+            }
+        } catch (ClassNotFoundException e) {
+            System.out.println(e.getMessage());
+        } catch (SQLException e) {
+
+            resp.addHeader("Content-Type","application/json");
+
+            JsonObjectBuilder m = Json.createObjectBuilder();
+            m.add("state","NO");
+            m.add("message",e.getMessage());
+            m.add("data","Not Added");
+            writer.print(m.build());
+        }
+
     }
 
     @Override
     protected void doPut(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doPut(req, resp);
+
+        resp.addHeader("Content-Type","application/json");
+        resp.addHeader("Access-Control-Allow-Origin","*");
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaeePosApp", "root", "ushan1234");
+            PrintWriter writer = resp.getWriter();
+
+            JsonReader reader = Json.createReader(req.getReader());
+
+            JsonObject jsonObject = reader.readObject();
+
+
+            String cusId = jsonObject.getString("id");
+            String cusName = jsonObject.getString("name");
+            String cusAddress = jsonObject.getString("address");
+            String cusSalary = jsonObject.getString("salary");
+
+
+            PreparedStatement pstm3 = connection.prepareStatement("update customer set customerName=?,customerAddress=?,customerSalary=? where customerId=?");
+            pstm3.setObject(4, cusId);
+            pstm3.setObject(1, cusName);
+            pstm3.setObject(2, cusAddress);
+            pstm3.setObject(3, cusSalary);
+            if (pstm3.executeUpdate() > 0) {
+                resp.addHeader("Content-Type","application/json");
+
+                JsonObjectBuilder m = Json.createObjectBuilder();
+                m.add("state","OK");
+                m.add("message","Succesfuly Update");
+                m.add("data","Succesfuly Update");
+                writer.print(m.build());
+            }
+
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
     @Override
@@ -77,6 +171,9 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doOptions(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doOptions(req, resp);
+        resp.addHeader("Access-Control-Allow-Origin","*");
+        resp.addHeader("Access-Control-Allow-Methods","PUT");
+        resp.addHeader("Access-Control-Allow-Methods","DELETE");
+        resp.addHeader("Access-Control-Allow-Headers","content-type");
     }
 }

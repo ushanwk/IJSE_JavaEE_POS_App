@@ -114,6 +114,64 @@
         loadAll();
     });
 
+    $('#btnAddCustomer').click(function(){
+        let cusId = $('#txtCustomerID').val();
+        let cusName = $('#txtCustomerName').val();
+        let cusAddress = $('#txtCustomerAddress').val();
+        let cusSalary = $('#txtCustomerSalary').val();
+
+        let customer = {
+            id : cusId,
+            name : cusName,
+            address : cusAddress,
+            salary : cusSalary
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/Back_End_Web_exploded/pages/customer",
+            method: "post",
+            data: JSON.stringify(customer),
+            contentType: 'application/json',
+
+            success:function(e){
+                loadAll();
+                alert(e.message)
+            },
+            error:function(e){
+                loadAll();
+                alert(e.message)
+            }
+        });
+    });
+
+    $('#btnUpdateCustomer').click(function(){
+
+        let cusId = $('#txtCustomerID').val();
+        let cusName = $('#txtCustomerName').val();
+        let cusAddress = $('#txtCustomerAddress').val();
+        let cusSalary = $('#txtCustomerSalary').val();
+
+        let customer = {
+            id : cusId,
+            name : cusName,
+            address : cusAddress,
+            salary : cusSalary
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/Back_End_Web_exploded/pages/customer",
+            method: "put",
+            data: JSON.stringify(customer),
+            contentType: 'application/json',
+
+            success:function(e){
+                loadAll();
+                alert(e.message)
+            }
+        });
+
+    });
+
 </script>
 
 </body>
