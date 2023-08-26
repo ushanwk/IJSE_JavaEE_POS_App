@@ -58,11 +58,11 @@
                     <span class="control-error" id="lblcussalary"></span>
                 </div>
                 <div class="btn-group">
-                    <button formaction="customer?option=add" formmethod="post" class="btn btn-primary" id="btnCustomer">Save Customer</button>
-                    <button formaction="customer?option=delete" formmethod="post" class="btn btn-danger" id="btnCusDelete">Remove</button>
-                    <button formaction="customer?option=update" formmethod="post" class="btn btn-warning" id="btnUpdate">Update</button>
-                    <button formaction="customer" class="btn btn-success" id="btnGetAll">Get All</button>
-                    <button formaction="/pos_one" class="btn btn-danger" id="btn-clear1">Clear All</button>
+                    <button type="button" class="btn btn-primary" id="btnAddCustomer">Save Customer</button>
+                    <button type="button" class="btn btn-danger" id="btnDeleteCustomer">Remove</button>
+                    <button type="button" class="btn btn-warning" id="btnUpdateCustomer">Update</button>
+                    <button type="button" class="btn btn-success" id="btnGetAllCustomer">Get All</button>
+                    <button type="button" class="btn btn-danger" id="btnClearFields">Clear All</button>
                 </div>
             </form>
         </div>
@@ -84,60 +84,37 @@
     </section>
 </main>
 
-
 <script src="../assets/js/jquery-3.6.1.min.js"></script>
 <script src="../assets/js/bootstrap.min.js"></script>
 
-<!--<script>-->
-<!--    //select the button and add an event to it-->
-<!--    document.getElementById("btnCustomer").addEventListener("click", function () {-->
+<script>
 
-<!--        //get typed values of input fields-->
-<!--        let id = document.getElementById("txtCustomerID").value;-->
-<!--        let name = document.getElementById("txtCustomerName").value;-->
-<!--        let address = document.getElementById("txtCustomerAddress").value;-->
-<!--        let salary = document.getElementById("txtCustomerSalary").value;-->
+    function loadAll(){
+        $.ajax({
+            url:"http://localhost:8080/Back_End_Web_exploded/pages/customer",
+            success:function (res) {
+                let customers = $(res);
 
-<!--        //let's print it-->
-<!--        console.log(id,name,address,salary);-->
+                $('#tblCustomer').empty();
 
-<!--        //catch the table body-->
-<!--        let tBody=document.getElementById("tblCustomer");-->
+                for (let i = 0; i < customers.length; i++) {
+                    let id=customers[i].customerId;
+                    let name=customers[i].customerName;
+                    let address= customers[i].customerAddress;
+                    let salary= customers[i].customerSalary;
 
-<!--        // let's see how we should insert a table row using html format-->
-<!--        //<tr>-->
-<!--        // <td>id</td>-->
-<!--        // <td>name</td>-->
-<!--        // <td>address</td>-->
-<!--        // <td>salary</td>-->
-<!--        // </tr>-->
+                    let row =`<tr><td>${id}</td><td>${name}</td><td>${address}</td><td>${salary}</td></tr>`;
+                    $('#tblCustomer').append(row);
+                }
+            }
+        });
+    }
 
-<!--        //ok then, let's create the above row-->
-<!--       let tr= document.createElement("tr");-->
+    $('#btnGetAllCustomer').click(function(){
+        loadAll();
+    });
 
-<!--       //let's create another four columns-->
-<!--       let col1= document.createElement("td");-->
-<!--       let col2= document.createElement("td");-->
-<!--       let col3= document.createElement("td");-->
-<!--       let col4= document.createElement("td");-->
+</script>
 
-<!--       //set input fields values to the above created columns-->
-<!--        col1.textContent=id;-->
-<!--        col2.textContent=name;-->
-<!--        col3.textContent=address;-->
-<!--        col4.textContent=salary;-->
-
-<!--        //set 4 columns to the previously created row-->
-<!--        tr.appendChild(col1);-->
-<!--        tr.appendChild(col2);-->
-<!--        tr.appendChild(col3);-->
-<!--        tr.appendChild(col4);-->
-
-<!--        //set the row to the table body-->
-<!--        tBody.appendChild(tr);-->
-
-<!--        //Work done;-->
-<!--    });-->
-<!--</script>-->
 </body>
 </html>
