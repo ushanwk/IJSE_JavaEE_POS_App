@@ -54,10 +54,10 @@
             </div>
             <div class="btn-group">
                 <button type="button" class="btn btn-primary" id="btnAddItem">Add Item</button>
-                <button type="button" class="btn btn-primary" id="btnDeleteItem">Remove</button>
-                <button type="button" class="btn btn-primary" id="btnUpdateItem">Update</button>
-                <button type="button" class="btn btn-primary" id="btnGetAll">Get All</button>
-                <button type="button" class="btn btn-primary" id="btnClearItem">Clear All</button>
+                <button type="button" class="btn btn-danger" id="btnDeleteItem">Remove</button>
+                <button type="button" class="btn btn-warning" id="btnUpdateItem">Update</button>
+                <button type="button" class="btn btn-success" id="btnGetAll">Get All</button>
+                <button type="button" class="btn btn-danger" id="btnClearItem">Clear All</button>
             </div>
 
         </div>
@@ -108,6 +108,65 @@
 
     $('#btnGetAll').click(function(){
         loadAll();
+    });
+
+    $('#btnAddItem').click(function(){
+
+        let itemCode = $('#itemCode').val();
+        let itemN = $('#itemName').val();
+        let itemQty = $('#itemQty').val();
+        let itemPrice = $('#itemPrice').val();
+
+        let item = {
+            code : itemCode,
+            item : itemN,
+            qty : itemQty,
+            price : itemPrice
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/Back_End_Web_exploded/pages/item",
+            method: "post",
+            data: JSON.stringify(item),
+            contentType: 'application/json',
+
+            success:function(e){
+                loadAll();
+                alert(e.message)
+            },
+            error:function(e){
+                loadAll();
+                alert(e.message)
+            }
+        });
+    });
+
+    $('#btnUpdateItem').click(function(){
+
+        let itemCode = $('#itemCode').val();
+        let itemN = $('#itemName').val();
+        let itemQty = $('#itemQty').val();
+        let itemPrice = $('#itemPrice').val();
+
+        let item = {
+            code : itemCode,
+            item : itemN,
+            qty : itemQty,
+            price : itemPrice
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/Back_End_Web_exploded/pages/item",
+            method: "put",
+            data: JSON.stringify(item),
+            contentType: 'application/json',
+
+            success:function(e){
+                loadAll();
+                alert(e.message)
+            }
+        });
+
     });
 
 
