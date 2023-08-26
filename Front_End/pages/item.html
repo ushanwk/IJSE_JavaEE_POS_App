@@ -169,6 +169,28 @@
 
     });
 
+    $('#btnDeleteItem').click(function(){
+
+        let code = $('#itemCode').val();
+
+        let item = {
+            itemCode : code
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/Back_End_Web_exploded/pages/customer",
+            method: "delete",
+            data: JSON.stringify(item),
+            contentType: 'application/json',
+
+            success:function(e){
+                loadAll();
+                alert(e.message)
+            }
+        });
+
+    });
+
 
 
 </script>

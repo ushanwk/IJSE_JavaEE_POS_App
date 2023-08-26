@@ -202,7 +202,6 @@ public class CustomerServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
 
-
     }
 
     @Override
