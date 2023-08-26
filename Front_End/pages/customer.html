@@ -36,7 +36,7 @@
     <section class="row">
         <div class="col-12 col-lg-4">
             <h1>Customer Registration</h1>
-            <form>
+            <form id="customerForm">
                 <div class="form-group">
                     <label for="txtCustomerID">Customer ID</label>
                     <input name="cusID" class="form-control" id="txtCustomerID"  type="text">
@@ -161,6 +161,29 @@
         $.ajax({
             url: "http://localhost:8080/Back_End_Web_exploded/pages/customer",
             method: "put",
+            data: JSON.stringify(customer),
+            contentType: 'application/json',
+
+            success:function(e){
+                loadAll();
+                alert(e.message)
+            }
+        });
+
+    });
+
+
+    $('#btnDeleteCustomer').click(function(){
+
+        let cusId = $('#txtCustomerID').val();
+
+        let customer = {
+            id : cusId
+        }
+
+        $.ajax({
+            url: "http://localhost:8080/Back_End_Web_exploded/pages/customer",
+            method: "delete",
             data: JSON.stringify(customer),
             contentType: 'application/json',
 

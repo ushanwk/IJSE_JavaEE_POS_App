@@ -61,8 +61,6 @@ public class CustomerServlet extends HttpServlet {
     @Override
     protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
-        System.out.println("Awoooo");
-
         resp.addHeader("Content-Type","application/json");
         resp.addHeader("Access-Control-Allow-Origin","*");
 
@@ -166,7 +164,45 @@ public class CustomerServlet extends HttpServlet {
 
     @Override
     protected void doDelete(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
-        super.doDelete(req, resp);
+
+        resp.addHeader("Content-Type","application/json");
+        resp.addHeader("Access-Control-Allow-Origin","*");
+
+        try {
+
+            Class.forName("com.mysql.jdbc.Driver");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/JavaeePosApp", "root", "ushan1234");
+            PrintWriter writer = resp.getWriter();
+
+            JsonReader reader = Json.createReader(req.getReader());
+
+            JsonObject jsonObject = reader.readObject();
+
+            String cusId = jsonObject.getString("id");
+
+            System.out.println(cusId);
+
+
+            PreparedStatement pstm2 = connection.prepareStatement("delete from customer where customerId=?");
+            pstm2.setObject(1, cusId);
+            if (pstm2.executeUpdate() > 0) {
+                resp.addHeader("Content-Type","application/json");
+
+                JsonObjectBuilder m = Json.createObjectBuilder();
+                m.add("state","OK");
+                m.add("message","Succesfuly Delete");
+                m.add("data","Succesfuly Delete");
+                writer.print(m.build());
+            }
+
+
+        } catch (ClassNotFoundException e) {
+            throw new RuntimeException(e);
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
+
     }
 
     @Override
@@ -176,4 +212,5 @@ public class CustomerServlet extends HttpServlet {
         resp.addHeader("Access-Control-Allow-Methods","DELETE");
         resp.addHeader("Access-Control-Allow-Headers","content-type");
     }
+
 }
