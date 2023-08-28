@@ -586,9 +586,22 @@
             let row =`<tr><td>${code}</td><td>${item}</td><td>${price}</td><td>${qty}</td><td>${total}</td></tr>`;
             $('#orderTable').append(row);
             $('#txtQTYOnHand').val(Number(qtyOnHand) - Number(qty));
+
+            let tot = Number( $('#total').val() + total);
+            console.log(tot);
+
+            $('#total').text(tot);
+            $('#subtotal').text(tot);
+
         }else{
             alert("Quntity not enough!!!");
         }
+
+    });
+
+    $("#txtDiscount").on("change paste keyup", function() {
+
+        $("#subtotal").text(parseInt($('#total').text()) - parseInt($("#txtDiscount").val()));
 
     });
 
