@@ -59,8 +59,6 @@
                                         <div class="form-group">
                                             <label>Customer :</label>
                                             <select class="form-control" id="selectCusID">
-                                                <option value="1">A</option>
-                                                <option value="2">B</option>
                                             </select>
                                             <span class="control-error"
                                                   id="cus-empty-error"></span>
@@ -233,265 +231,367 @@
 
 <script>
 
-    function loadCusIds() {
-        var optionCus = '';
+    // function loadCusIds() {
+    //     var optionCus = '';
+    //
+    //     $.ajax({
+    //         url: 'http://localhost:8080/JavaEE_Pos/customer',
+    //         dataType: "json",
+    //         success: function (customers) {
+    //             for (let i in customers) {
+    //                 let cus = customers[i];
+    //                 let id = cus.id;
+    //                 optionCus += '<option value="' +id + '">' + id + '</option>';
+    //             }
+    //             $('#selectCusId').append(optionCus);
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     });
+    //
+    // }
+    //
+    // //set Customer name according to cus id
+    //
+    // $('#selectCusId').change(function(){ //the event here is change
+    //     let thisVal=$(this).val();
+    //     $.ajax({
+    //         url: 'http://localhost:8080/JavaEE_Pos/customer',
+    //         dataType: "json",
+    //         success: function (customers) {
+    //             for (let i in customers) {
+    //                 let cus = customers[i];
+    //                 let id = cus.id;
+    //                 let name = cus.name;
+    //                 if (thisVal == id){
+    //                     $('#selectedCusName').val(name)
+    //                     break;
+    //                 }
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     });
+    //
+    // });
+    //
+    // //load item ids
+    // function loadItemIds() {
+    //     var optionItem = '';
+    //
+    //     $.ajax({
+    //         url: 'http://localhost:8080/JavaEE_Pos/item',
+    //         dataType: "json",
+    //         success: function (items) {
+    //             for (let i in items) {
+    //                 let item = items[i];
+    //                 let code = item.code;
+    //                 optionItem += '<option value="' +code + '">' + code + '</option>';
+    //             }
+    //             $('#selectItemId').append(optionItem);
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     });
+    //
+    // }
+    //
+    // //set Customer name according to cus id
+    //
+    // $('#selectItemId').change(function(){ //the event here is change
+    //     let thisVal=$(this).val();
+    //     $.ajax({
+    //         url: 'http://localhost:8080/JavaEE_Pos/item',
+    //         dataType: "json",
+    //         success: function (items) {
+    //             for (let i in items) {
+    //                 let item = items[i];
+    //                 let code = item.code;
+    //                 let desc = item.desc;
+    //                 let unitPrice = item.unitPrice;
+    //                 let qtyOnHnd = item.qty;
+    //                 if (thisVal == code){
+    //                     $('#ItemName').val(desc);
+    //                     $('#UnitPrice').val(unitPrice);
+    //                     $('#QtyOnHnd').val(qtyOnHnd);
+    //
+    //                     break;
+    //                 }
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     });
+    //
+    // });
+    //
+    // // Add to Cart function
+    //
+    // $('#btnAddToCart').click(function () {
+    //     addToCart();
+    // });
+    //
+    // function addToCart() {
+    //     subTotal=0;
+    //     let itemCode = $('#selectItemId').val();
+    //     let itemName = $('#ItemName').val();
+    //     let itemUnitPrice = $('#UnitPrice').val();
+    //     let qty = $('#Qty').val();
+    //     let totalofRow = itemUnitPrice*qty;
+    //
+    //     let cartItemsRow=[];
+    //
+    //     cartItemsRow.push(itemCode,itemName,itemUnitPrice,qty,totalofRow);
+    //
+    //     let row = `<tr><td>${itemCode}</td><td>${itemName}</td><td>${itemUnitPrice}</td><td>${qty}</td><td>${totalofRow}</td></tr>`;
+    //     $("#tblCart").append(row);
+    //
+    //
+    //     cartItems.push(cartItemsRow);
+    //
+    //     console.log(cartItemsRow);
+    //     console.log(cartItems);
+    //
+    //
+    //     for (let i = 0; i <= cartItems.length; i++) {
+    //         subTotal+=cartItems[i][4];
+    //         finalTotal=subTotal;
+    //         $('#inputTotal').val(parseInt(subTotal));
+    //         $('#inputSubTotal').val(parseInt(finalTotal));
+    //         console.log(parseInt(subTotal));
+    //     }
+    // }
+    //
+    // //add discount
+    // $('#inputDiscount').keydown(function (event){
+    //
+    //     if (event.key==='Enter'){
+    //         if ($('#inputDiscount').val()!=="0"){
+    //             fullTotal = subTotal-Number($('#inputDiscount').val());
+    //
+    //             $('#inputSubTotal').val(fullTotal);
+    //         }
+    //     }
+    //
+    // });
+    //
+    // //balance set
+    // $('#inputCash').keydown(function (event){
+    //
+    //     if (event.key==='Enter'){
+    //         let balance = Number($('#inputCash').val())-Number($('#inputSubTotal').val());
+    //
+    //         $('#inputBalance').val(balance);
+    //         //purchaseOrder();
+    //     }
+    //
+    // });
+    //
+    // //purchase order
+    //
+    // $('#btnPurchaseOrder').click(function () {
+    //     let oID = $('#InputOID').val();
+    //     let oDate= $('#InputDate').val();
+    //     let oCusID= $('#selectCusId').val();
+    //     let oItemID= $('#selectItemId').val();
+    //     let oItemName= $('#ItemName').val();
+    //     let oUnitPrice= $('#UnitPrice').val();
+    //     let oQty= $('#Qty').val();
+    //     let oCartItems=cartItems;
+    //
+    //     console.log(oID,oDate,oCusID,oItemID,oItemName,oUnitPrice,oQty);
+    //     console.log(oCartItems);
+    //
+    //     let a = {
+    //         "oID": oID,
+    //         "oDate": oDate,
+    //         "oCusID": oCusID,
+    //         "oItemID": oItemID,
+    //         "oItemName": oItemName,
+    //         "oUnitPrice": oUnitPrice,
+    //         "oQty": oQty,
+    //         "oCartItems": oCartItems
+    //     }
+    //
+    //     $.ajax({
+    //         url: 'http://localhost:8080/JavaEE_Pos/placeOrder',
+    //         method: "post",
+    //         setRequestHeader:"Access-Control-Allow-Origin",
+    //         origin:"*",
+    //         contentType: "application/json",
+    //         data: JSON.stringify(a),
+    //         success: function (resp) {
+    //             alert(resp.message);
+    //             updateItemQty();
+    //             console.log(resp.message)
+    //         },
+    //         error: function (error) {
+    //             alert(error.responseJSON.message);
+    //             console.log(error.message)
+    //         }
+    //     });
+    //
+    // })
+    //
+    //
+    // function getAllOrders(){
+    //     $("#tblOrders").empty();
+    //     <!--send ajax request to the item servlet using jQuery-->
+    //     $.ajax({
+    //         url: 'http://localhost:8080/JavaEE_Pos/placeOrder',
+    //         dataType: "json",
+    //         success: function (orders) {
+    //             for (let i in orders) {
+    //                 let order = orders[i];
+    //                 let orderID = order.orderID;
+    //                 let orderCusName = order.orderCusID;
+    //                 let orderDate = order.orderDate;
+    //                 let row = `<tr><td>${orderID}</td><td>${orderCusName}</td><td>${orderDate}</td></tr>`;
+    //                 $("#tblOrders").append(row);
+    //                 // bindTrEventsItem();
+    //             }
+    //         },
+    //         error: function (error) {
+    //             console.log(error);
+    //         }
+    //     });
+    // }
+    //
+    // function updateItemQty() {
+    //     let itemID =$("#selectItemId").val()
+    //     let oldQty=$("#QtyOnHnd").val();
+    //     let buyingQty=$("#Qty").val();
+    //     let newQty=(oldQty-buyingQty).toString();
+    //
+    //     let b = {
+    //         "itemID": itemID,
+    //         "newQty": newQty,
+    //     }
+    //
+    //     $.ajax({
+    //         url: 'http://localhost:8080/JavaEE_Pos/placeOrder',
+    //         method: 'put',
+    //         origin: "*",
+    //         // header: "Access-Control-Allow-Origin",
+    //         setRequestHeader: "Access-Control-Allow-Origin",
+    //         contentType: "application/json",
+    //         data: JSON.stringify(b),
+    //         success: function (resp) {
+    //             alert(resp.message);
+    //         },
+    //         error: function (error) {
+    //             alert(error.responseJSON.message);
+    //         }
+    //     });
+    //
+    //
+    // }
 
+    let customers;
+    let items;
+
+    function loadAllCustomersIDs(){
         $.ajax({
-            url: 'http://localhost:8080/JavaEE_Pos/customer',
-            dataType: "json",
-            success: function (customers) {
-                for (let i in customers) {
-                    let cus = customers[i];
-                    let id = cus.id;
-                    optionCus += '<option value="' +id + '">' + id + '</option>';
+            url:"http://localhost:8080/Back_End_Web_exploded/pages/customer",
+            success:function (res) {
+                customers = $(res);
+
+                let optionCus;
+
+                for (let i = 0; i < customers.length; i++) {
+                    let id=customers[i].customerId;
+                    optionCus += '<option value="' + id + '">' + id + '</option>';
+
                 }
-                $('#selectCusId').append(optionCus);
-            },
-            error: function (error) {
-                console.log(error);
+
+                $('#selectCusID').append(optionCus);
             }
         });
-
     }
 
-    //set Customer name according to cus id
 
-    $('#selectCusId').change(function(){ //the event here is change
-        let thisVal=$(this).val();
+    function loadAllItemsIDs(){
         $.ajax({
-            url: 'http://localhost:8080/JavaEE_Pos/customer',
-            dataType: "json",
-            success: function (customers) {
-                for (let i in customers) {
-                    let cus = customers[i];
-                    let id = cus.id;
-                    let name = cus.name;
-                    if (thisVal == id){
-                        $('#selectedCusName').val(name)
-                        break;
-                    }
+            url:"http://localhost:8080/Back_End_Web_exploded/pages/item",
+            success:function (res) {
+                items = $(res);
+
+                let optionItem;
+
+                for (let i = 0; i < items.length; i++) {
+                    let code = items[i].itemCode;
+                    optionItem += '<option value="' + code + '">' + code + '</option>';
+
                 }
-            },
-            error: function (error) {
-                console.log(error);
+
+                $('#selectItemCode').append(optionItem);
             }
         });
+    }
+
+    loadAllCustomersIDs();
+    loadAllItemsIDs();
+
+
+
+    $('#selectCusID').change(function(){ //the event here is change
+
+        let id = $(this).val();
+
+        for (let i = 0; i < customers.length; i++) {
+
+            if(id == customers[i].customerId){
+                $('#orderCustomerID').val(customers[i].customerId);
+                $('#orderCustomerName').val(customers[i].customerName);
+                $('#orderCustomerSalary').val(customers[i].customerSalary);
+                $('#orderCustomerAddress').val(customers[i].customerAddress);
+            }
+        }
 
     });
 
-    //load item ids
-    function loadItemIds() {
-        var optionItem = '';
+    $('#selectItemCode').change(function(){ //the event here is change
 
-        $.ajax({
-            url: 'http://localhost:8080/JavaEE_Pos/item',
-            dataType: "json",
-            success: function (items) {
-                for (let i in items) {
-                    let item = items[i];
-                    let code = item.code;
-                    optionItem += '<option value="' +code + '">' + code + '</option>';
-                }
-                $('#selectItemId').append(optionItem);
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
+        let id = $(this).val();
 
-    }
+        for (let i = 0; i < items.length; i++) {
 
-    //set Customer name according to cus id
-
-    $('#selectItemId').change(function(){ //the event here is change
-        let thisVal=$(this).val();
-        $.ajax({
-            url: 'http://localhost:8080/JavaEE_Pos/item',
-            dataType: "json",
-            success: function (items) {
-                for (let i in items) {
-                    let item = items[i];
-                    let code = item.code;
-                    let desc = item.desc;
-                    let unitPrice = item.unitPrice;
-                    let qtyOnHnd = item.qty;
-                    if (thisVal == code){
-                        $('#ItemName').val(desc);
-                        $('#UnitPrice').val(unitPrice);
-                        $('#QtyOnHnd').val(qtyOnHnd);
-
-                        break;
-                    }
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-
-    });
-
-    // Add to Cart function
-
-    $('#btnAddToCart').click(function () {
-        addToCart();
-    });
-
-    function addToCart() {
-        subTotal=0;
-        let itemCode = $('#selectItemId').val();
-        let itemName = $('#ItemName').val();
-        let itemUnitPrice = $('#UnitPrice').val();
-        let qty = $('#Qty').val();
-        let totalofRow = itemUnitPrice*qty;
-
-        let cartItemsRow=[];
-
-        cartItemsRow.push(itemCode,itemName,itemUnitPrice,qty,totalofRow);
-
-        let row = `<tr><td>${itemCode}</td><td>${itemName}</td><td>${itemUnitPrice}</td><td>${qty}</td><td>${totalofRow}</td></tr>`;
-        $("#tblCart").append(row);
-
-
-        cartItems.push(cartItemsRow);
-
-        console.log(cartItemsRow);
-        console.log(cartItems);
-
-
-        for (let i = 0; i <= cartItems.length; i++) {
-            subTotal+=cartItems[i][4];
-            finalTotal=subTotal;
-            $('#inputTotal').val(parseInt(subTotal));
-            $('#inputSubTotal').val(parseInt(finalTotal));
-            console.log(parseInt(subTotal));
-        }
-    }
-
-    //add discount
-    $('#inputDiscount').keydown(function (event){
-
-        if (event.key==='Enter'){
-            if ($('#inputDiscount').val()!=="0"){
-                fullTotal = subTotal-Number($('#inputDiscount').val());
-
-                $('#inputSubTotal').val(fullTotal);
+            if(id == items[i].itemCode){
+                $('#txtItemCode').val(items[i].itemCode);
+                $('#txtItemDescription').val(items[i].itemName);
+                $('#txtItemPrice').val(items[i].itemPrice);
+                $('#txtQTYOnHand').val(items[i].itemQty);
             }
         }
 
     });
 
-    //balance set
-    $('#inputCash').keydown(function (event){
 
-        if (event.key==='Enter'){
-            let balance = Number($('#inputCash').val())-Number($('#inputSubTotal').val());
+    $('#btnAddToTable').click(function(){
 
-            $('#inputBalance').val(balance);
-            //purchaseOrder();
+        let code = $('#txtItemCode').val();
+        let item = $('#txtItemDescription').val();
+        let price = $('#txtItemPrice').val();
+        let qty = $('#txtQty').val();
+        let total = Number(price*qty);
+
+        let qtyOnHand = $('#txtQTYOnHand').val();
+
+
+        if(Number(qty) < Number(qtyOnHand)){
+            let row =`<tr><td>${code}</td><td>${item}</td><td>${price}</td><td>${qty}</td><td>${total}</td></tr>`;
+            $('#orderTable').append(row);
+            $('#txtQTYOnHand').val(Number(qtyOnHand) - Number(qty));
+        }else{
+            alert("Quntity not enough!!!");
         }
 
     });
 
-    //purchase order
-
-    $('#btnPurchaseOrder').click(function () {
-        let oID = $('#InputOID').val();
-        let oDate= $('#InputDate').val();
-        let oCusID= $('#selectCusId').val();
-        let oItemID= $('#selectItemId').val();
-        let oItemName= $('#ItemName').val();
-        let oUnitPrice= $('#UnitPrice').val();
-        let oQty= $('#Qty').val();
-        let oCartItems=cartItems;
-
-        console.log(oID,oDate,oCusID,oItemID,oItemName,oUnitPrice,oQty);
-        console.log(oCartItems);
-
-        let a = {
-            "oID": oID,
-            "oDate": oDate,
-            "oCusID": oCusID,
-            "oItemID": oItemID,
-            "oItemName": oItemName,
-            "oUnitPrice": oUnitPrice,
-            "oQty": oQty,
-            "oCartItems": oCartItems
-        }
-
-        $.ajax({
-            url: 'http://localhost:8080/JavaEE_Pos/placeOrder',
-            method: "post",
-            setRequestHeader:"Access-Control-Allow-Origin",
-            origin:"*",
-            contentType: "application/json",
-            data: JSON.stringify(a),
-            success: function (resp) {
-                alert(resp.message);
-                updateItemQty();
-                console.log(resp.message)
-            },
-            error: function (error) {
-                alert(error.responseJSON.message);
-                console.log(error.message)
-            }
-        });
-
-    })
-
-
-    function getAllOrders(){
-        $("#tblOrders").empty();
-        <!--send ajax request to the item servlet using jQuery-->
-        $.ajax({
-            url: 'http://localhost:8080/JavaEE_Pos/placeOrder',
-            dataType: "json",
-            success: function (orders) {
-                for (let i in orders) {
-                    let order = orders[i];
-                    let orderID = order.orderID;
-                    let orderCusName = order.orderCusID;
-                    let orderDate = order.orderDate;
-                    let row = `<tr><td>${orderID}</td><td>${orderCusName}</td><td>${orderDate}</td></tr>`;
-                    $("#tblOrders").append(row);
-                    // bindTrEventsItem();
-                }
-            },
-            error: function (error) {
-                console.log(error);
-            }
-        });
-    }
-
-    function updateItemQty() {
-        let itemID =$("#selectItemId").val()
-        let oldQty=$("#QtyOnHnd").val();
-        let buyingQty=$("#Qty").val();
-        let newQty=(oldQty-buyingQty).toString();
-
-        let b = {
-            "itemID": itemID,
-            "newQty": newQty,
-        }
-
-        $.ajax({
-            url: 'http://localhost:8080/JavaEE_Pos/placeOrder',
-            method: 'put',
-            origin: "*",
-            // header: "Access-Control-Allow-Origin",
-            setRequestHeader: "Access-Control-Allow-Origin",
-            contentType: "application/json",
-            data: JSON.stringify(b),
-            success: function (resp) {
-                alert(resp.message);
-            },
-            error: function (error) {
-                alert(error.responseJSON.message);
-            }
-        });
-
-
-    }
 
 </script>
 

@@ -89,17 +89,17 @@
         $.ajax({
             url:"http://localhost:8080/Back_End_Web_exploded/pages/item",
             success:function (res) {
-                let customers = $(res);
+                let items = $(res);
 
-                $('#tblCustomer').empty();
+                $('#tblItem').empty();
 
-                for (let i = 0; i < customers.length; i++) {
-                    let id=customers[i].customerId;
-                    let name=customers[i].customerName;
-                    let address= customers[i].customerAddress;
-                    let salary= customers[i].customerSalary;
+                for (let i = 0; i < items.length; i++) {
+                    let code=items[i].itemCode;
+                    let item=items[i].itemName;
+                    let qty= items[i].itemQty;
+                    let price= items[i].itemPrice;
 
-                    let row =`<tr><td>${id}</td><td>${name}</td><td>${address}</td><td>${salary}</td></tr>`;
+                    let row =`<tr><td>${code}</td><td>${item}</td><td>${qty}</td><td>${price}</td></tr>`;
                     $('#tblItem').append(row);
                 }
             }

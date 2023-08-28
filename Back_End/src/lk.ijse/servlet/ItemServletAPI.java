@@ -38,10 +38,10 @@ public class ItemServletAPI extends HttpServlet {
 
                 JsonObjectBuilder customer = Json.createObjectBuilder();
 
-                customer.add("customerId", code);
-                customer.add("customerName", item);
-                customer.add("customerAddress", qty);
-                customer.add("customerSalary", price);
+                customer.add("itemCode", code);
+                customer.add("itemName", item);
+                customer.add("itemQty", qty);
+                customer.add("itemPrice", price);
 
                 allCustomers.add(customer.build());
 
