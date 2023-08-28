@@ -17,9 +17,7 @@ public class OrderServletAPI extends HttpServlet {
             Class.forName("com.mysql.jdbc.Driver");
             Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaee_pos_app", "root", "12345678");
             PreparedStatement pstm = connection.prepareStatement("select * from orders");
-//            PreparedStatement pstm2 = connection.prepareStatement("select * from order_detail");
             ResultSet rst = pstm.executeQuery();
-//            ResultSet rst2 = pstm2.executeQuery();
             PrintWriter writer = resp.getWriter();
             resp.addHeader("Access-Control-Allow-Origin","*");
             resp.addHeader("Content-Type","application/json");
@@ -31,14 +29,12 @@ public class OrderServletAPI extends HttpServlet {
                 String orderID = rst.getString(1);
                 String orderCusID = rst.getString(2);
                 String orderDate = rst.getString(3);
-//                String orderTotal = String.valueOf(rst.getInt(4));
 
                 JsonObjectBuilder customer = Json.createObjectBuilder();
 
                 customer.add("orderID",orderID);
                 customer.add("orderCusID",orderCusID);
                 customer.add("orderDate",orderDate);
-//                customer.add("contact",contact);
 
                 allCustomers.add(customer.build());
             }
@@ -52,7 +48,6 @@ public class OrderServletAPI extends HttpServlet {
         } catch (SQLException e) {
             throw new RuntimeException(e);
         }
-    }
     }
 
     @Override
