@@ -17,7 +17,7 @@ public class OrderServletAPI extends HttpServlet {
     protected void doGet(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaee_pos_app", "root", "12345678");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
             PreparedStatement pstm = connection.prepareStatement("select * from orders");
             ResultSet rst = pstm.executeQuery();
             PrintWriter writer = resp.getWriter();
@@ -85,7 +85,7 @@ public class OrderServletAPI extends HttpServlet {
 
         try {
             Class.forName("com.mysql.jdbc.Driver");
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaee_pos_app", "root", "12345678");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
             connection.setAutoCommit(false);
             PreparedStatement pstm = connection.prepareStatement("insert into orders values(?,?,?)");
             pstm.setObject(1, oID);
@@ -152,7 +152,7 @@ public class OrderServletAPI extends HttpServlet {
         try {
             Class.forName("com.mysql.jdbc.Driver");
 
-            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaee_pos_app", "root", "12345678");
+            Connection connection = DriverManager.getConnection("jdbc:mysql://localhost:3306/javaeePosApp", "root", "ushan1234");
 
             PreparedStatement pstm3 = connection.prepareStatement("update item set qty_on_hnd=? where item_ID=?");
             pstm3.setObject(2, itemID);
